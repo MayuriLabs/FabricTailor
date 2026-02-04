@@ -95,15 +95,10 @@ public class SkinChangeScreen extends Screen {
                 .size(BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build();
         this.addRenderableWidget(openExplorerButton);
-        if (this.font == null) { // todo: figure out why this happens in 1.21.11
-            Minecraft.getInstance().setScreen(null);
-            Minecraft.getInstance().player
-                    .displayClientMessage(Component.nullToEmpty("WTH?? Screen#font is null, closing screen"), false);
-            return;
-        }
-
         // Checkbox for slim skin model
-        this.skinModelCheckbox = Checkbox.builder(TextTranslations.create("button.fabrictailor.use_slim"), this.font)
+        this.skinModelCheckbox = Checkbox
+                .builder(TextTranslations.create("button.fabrictailor.use_slim"),
+                        this.font != null ? this.font : this.minecraft.font)
                 .pos(width / 2,
                         height / 2 - 12)
                 .maxWidth(BUTTON_WIDTH)
@@ -116,7 +111,8 @@ public class SkinChangeScreen extends Screen {
         this.skinModelCheckbox.visible = false;
 
         // Text field input
-        skinInput = new EditBox(this.font, width / 2, height / 2 - 29, BUTTON_WIDTH, 14,
+        skinInput = new EditBox(this.font != null ? this.font : this.minecraft.font, width / 2, height / 2 - 29,
+                BUTTON_WIDTH, 14,
                 Component.translatable("itemGroup.search").withStyle(ChatFormatting.WHITE));
         skinInput.setMaxLength(256);
         skinInput.setVisible(true);
@@ -249,7 +245,7 @@ public class SkinChangeScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, delta);
 
         // Screen title
-        guiGraphics.drawCenteredString(this.font, title, width / 2, 15, -1);
+        guiGraphics.drawCenteredString(this.font != null ? this.font : this.minecraft.font, title, width / 2, 15, -1);
 
         // Starting position of the window texture
         this.startX = (this.width - 252) / 2;
@@ -356,10 +352,12 @@ public class SkinChangeScreen extends Screen {
         }
 
         // Rendering title
-        guiGraphics.drawString(this.font, this.selectedTab.getTitle(), startX + 10, startY + 5, 0xFFFFFFFF);
+        guiGraphics.drawString(this.font != null ? this.font : this.minecraft.font, this.selectedTab.getTitle(),
+                startX + 10, startY + 5, 0xFFFFFFFF);
 
         // Rendering description above input field
-        guiGraphics.drawString(this.font, this.selectedTab.getDescription(), width / 2, height / 2 - 40, 0xFFFFFFFF);
+        guiGraphics.drawString(this.font != null ? this.font : this.minecraft.font, this.selectedTab.getDescription(),
+                width / 2, height / 2 - 40, 0xFFFFFFFF);
     }
 
     /**
@@ -392,7 +390,8 @@ public class SkinChangeScreen extends Screen {
             ClientTooltipComponent clientTooltipComponent = ClientTooltipComponent
                     .create(tab.getTitle().getVisualOrderText());
             if (tab.getTabType().isMouseOver(startX, startY, tab.getTabType().getMax() - i - 1, mouseX, mouseY)) {
-                guiGraphics.renderTooltip(this.font, List.of(clientTooltipComponent), mouseX, mouseY,
+                guiGraphics.renderTooltip(this.font != null ? this.font : this.minecraft.font,
+                        List.of(clientTooltipComponent), mouseX, mouseY,
                         DefaultTooltipPositioner.INSTANCE, null);
                 break;
             }

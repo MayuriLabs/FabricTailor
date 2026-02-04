@@ -33,7 +33,6 @@ public class ClientTailor implements ClientModInitializer {
     public static boolean TAILORED_SERVER = false;
     public static boolean ALLOW_DEFAULT_SKIN = true;
 
-    public static final SkinChangeScreen SKIN_CHANGE_SCREEN = new SkinChangeScreen();
     public static boolean forceOpen = false;
 
     @Override
@@ -47,7 +46,7 @@ public class ClientTailor implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBinding.consumeClick()) {
                 if (TAILORED_SERVER || forceOpen) {
-                    client.setScreen(SKIN_CHANGE_SCREEN);
+                    client.setScreen(new SkinChangeScreen());
                 } else {
                     client.player.displayClientMessage(
                             TextTranslations.create("error.fabrictailor.not_installed").withStyle(ChatFormatting.RED),
