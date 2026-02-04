@@ -42,20 +42,20 @@ public class ClientTailor implements ClientModInitializer {
                 "key.fabrictailor.toggle_skin_gui",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_K, // K for opening the window
-                new KeyMapping.Category(Identifier.fromNamespaceAndPath(MOD_ID, "skin_category"))
-        ));
+                new KeyMapping.Category(Identifier.fromNamespaceAndPath(MOD_ID, "skin_category"))));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBinding.consumeClick()) {
                 if (TAILORED_SERVER || forceOpen) {
                     client.setScreen(SKIN_CHANGE_SCREEN);
                 } else {
-                    client.player.displayClientMessage(TextTranslations.create("error.fabrictailor.not_installed").withStyle(ChatFormatting.RED), false);
+                    client.player.displayClientMessage(
+                            TextTranslations.create("error.fabrictailor.not_installed").withStyle(ChatFormatting.RED),
+                            false);
                     forceOpen = true;
                 }
             }
         });
-
 
         // Reset values
         ClientLoginConnectionEvents.DISCONNECT.register((handler, server) -> {

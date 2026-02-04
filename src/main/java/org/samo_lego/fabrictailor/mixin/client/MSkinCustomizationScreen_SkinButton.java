@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
-
 @Mixin(SkinCustomizationScreen.class)
 public abstract class MSkinCustomizationScreen_SkinButton extends OptionsSubScreen {
 
@@ -24,12 +23,7 @@ public abstract class MSkinCustomizationScreen_SkinButton extends OptionsSubScre
         super(screen, options, component);
     }
 
-    @Inject(method = "addOptions",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/components/OptionsList;addSmall(Ljava/util/List;)V"
-            ),
-            locals = LocalCapture.CAPTURE_FAILSOFT)
+    @Inject(method = "addOptions", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/OptionsList;addSmall(Ljava/util/List;)V"), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void onInit(CallbackInfo ci, List<AbstractWidget> widgets) {
         if (this.minecraft != null && this.minecraft.player != null) {
             var ftButton = Button.builder(Component.literal("FabricTailor"),
