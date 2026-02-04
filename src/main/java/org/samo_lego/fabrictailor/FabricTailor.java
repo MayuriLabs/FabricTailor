@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,18 +41,17 @@ public class FabricTailor implements ModInitializer {
 		});
 
 		configFile = new File(FabricLoader.getInstance().getConfigDir() + "/fabrictailor.json");
-		config = TailorConfig.loadConfigFile(configFile, FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER);
+		config = TailorConfig.loadConfigFile(configFile,
+				FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER);
 		config.save();
 
 		if (FabricLoader.getInstance().isModLoaded("carpet")) {
 			CarpetFunctions.init();
 		}
 
-
 		ServerPlayConnectionEvents.INIT.register(NetworkHandler::onInit);
 		ServerConfigurationConnectionEvents.CONFIGURE.register(NetworkHandler::onConfigured);
-		
-		
+
 		PayloadTypeRegistry.configurationS2C().register(FabricTailorHelloPayload.TYPE, FabricTailorHelloPayload.CODEC);
 
 		PayloadTypeRegistry.playC2S().register(VanillaSkinPayload.TYPE, VanillaSkinPayload.CODEC);
@@ -67,7 +65,8 @@ public class FabricTailor implements ModInitializer {
 	}
 
 	public static void reloadConfig() {
-		TailorConfig newConfig = TailorConfig.loadConfigFile(configFile, !Minecraft.getInstance().isLocalServer());
+		TailorConfig newConfig = TailorConfig.loadConfigFile(configFile,
+				FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER);
 		config.reload(newConfig);
 	}
 }

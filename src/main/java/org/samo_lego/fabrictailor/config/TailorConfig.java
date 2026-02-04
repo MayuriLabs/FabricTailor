@@ -3,7 +3,6 @@ package org.samo_lego.fabrictailor.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import jdk.jshell.execution.Util;
 import org.samo_lego.config2brigadier.common.IBrigadierConfigurator;
 import org.samo_lego.config2brigadier.common.annotation.BrigadierDescription;
 import org.samo_lego.config2brigadier.common.annotation.BrigadierExcluded;
@@ -17,17 +16,17 @@ import static org.samo_lego.fabrictailor.FabricTailor.*;
 import static org.samo_lego.fabrictailor.util.Logging.error;
 
 public class TailorConfig implements IBrigadierConfigurator {
-    private static final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().disableHtmlEscaping().create();
-
+    private static final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().disableHtmlEscaping()
+            .create();
 
     @SerializedName("// Whether to allow players to have capes. WARNING! This will toggle ALL capes!")
     public final String _comment_allowCapes = "(default: true)";
     @BrigadierDescription(defaultOption = "true")
     @SerializedName("allow_capes")
     public boolean allowCapes = true;
-    
+
     public Logging logging = new Logging();
-    
+
     public static class Logging {
         @SerializedName("// Whether to send (successful) command feedback for skin changes. Errors are sent regardless.")
         public final String _comment_skinChangeFeedback = "(default: true)";
@@ -77,8 +76,7 @@ public class TailorConfig implements IBrigadierConfigurator {
             "googleusercontent.com",
             "nocookie.net",
             "discord.com",
-            "duckduckgo.com"
-    ));
+            "duckduckgo.com"));
 
     @Override
     public void save() {
