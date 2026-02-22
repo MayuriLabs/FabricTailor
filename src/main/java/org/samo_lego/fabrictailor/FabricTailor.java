@@ -67,7 +67,7 @@ public class FabricTailor implements ModInitializer {
 	}
 
 	public static void reloadConfig() {
-		TailorConfig newConfig = TailorConfig.loadConfigFile(configFile, !Minecraft.getInstance().isLocalServer());
+		TailorConfig newConfig = TailorConfig.loadConfigFile(configFile, FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER);
 		config.reload(newConfig);
 	}
 }
